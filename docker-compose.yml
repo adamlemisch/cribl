@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  target_1:
+    build: .
+    command: ["node", "app.js", "target"]
+    networks:
+      - app_network
+
+  target_2:
+    build: .
+    command: ["node", "app.js", "target"]
+    networks:
+      - app_network
+
+  splitter:
+    build: .
+    command: ["node", "app.js", "splitter"]
+    depends_on:
+      - target_1
+      - target_2
+    networks:
+      - app_network
+
+  agent:
+    build: .
+    command: ["node", "app.js", "agent"]
+    depends_on:
+      - splitter
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
