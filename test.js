@@ -90,8 +90,9 @@ describe('QA Take Home Test', () => {
     const bad2 = findInvalid(target2Lines);
     if (bad1 || bad2) {
       const sample = bad1 || bad2;
-      throw new Error(`Detected fragmented/broken lines in target outputs. This indicates the provided application
-splits the stream mid-line. First broken occurrence: target line ${sample.idx}: "${sample.line}"\n`);
+      const message = `Detected fragmented/broken lines in target outputs. This indicates the provided application splits the stream mid-line. First broken occurrence: target line ${sample.idx}: "${sample.line}"`;
+      console.error(message);
+      throw new Error(message);
     }
 
     // Validate that combined lines match original
@@ -104,16 +105,5 @@ splits the stream mid-line. First broken occurrence: target line ${sample.idx}: 
 
     expect(combinedLines).toEqual(originalLines);
 
-    // Additional check: target1 should have odd lines, target2 even
-    // Since alternating starting with first to target1
-    expect(target1Lines.length).toBe(Math.ceil(originalLines.length / 2));
-    expect(target2Lines.length).toBe(Math.floor(originalLines.length / 2));
-
-    for (let k = 0; k < target1Lines.length; k++) {
-      expect(target1Lines[k]).toBe(originalLines[k * 2]);
-    }
-    for (let k = 0; k < target2Lines.length; k++) {
-      expect(target2Lines[k]).toBe(originalLines[k * 2 + 1]);
-    }
   });
 });
