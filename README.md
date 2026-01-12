@@ -2,16 +2,16 @@
 
 Summary
 - This repository contains an automated test harness for the provided Node.js sample application (agent / splitter / target).
-- The test uses Docker and docker-compose to deploy 4 services (agent, splitter, target_1, target_2), waits for data transfer, collects artifacts, and validates integrity.
+- The test uses Docker and Docker Compose to deploy 4 services (agent, splitter, target_1, target_2), waits for data transfer, collects artifacts, and validates integrity.
 
 What I implemented
 - `docker-compose.yml` and `Dockerfile` to containerize the app for a local test environment.
 - `test.js` (Jest) which:
-  - brings up the stack (`docker-compose up --build -d`)
+  - brings up the stack (`docker compose up --build -d`)
   - polls target containers until they contain the expected number of total lines
   - copies `events.log` from each target to `./outputs/`
   - performs strict integrity checks (line pattern match and ordered reconstruction)
-  - tears down the stack (`docker-compose down`)
+  - tears down the stack (`docker compose down`)
 
 Result (important)
 - The automated test intentionally fails because the provided `splitter` implementation can and does split the TCP stream in the middle of a logical line. That produces partial/fractured lines on the target outputs (for example: `mber 1826`), breaking strict line-by-line equality with the original input.

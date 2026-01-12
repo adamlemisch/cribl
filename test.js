@@ -6,7 +6,7 @@ describe('QA Take Home Test', () => {
   beforeAll(async () => {
     // Build and start the services
     console.log('Building and starting services...');
-    execSync('docker-compose up --build -d', { stdio: 'inherit' });
+    execSync('docker compose up --build -d', { stdio: 'inherit' });
 
     // Poll until both target files contain the same total number of lines as the source
     console.log('Waiting for data transfer (polling)...');
@@ -51,7 +51,7 @@ describe('QA Take Home Test', () => {
   afterAll(() => {
     // Stop and remove containers
     console.log('Stopping services...');
-    execSync('docker-compose down', { stdio: 'inherit' });
+    execSync('docker compose down', { stdio: 'inherit' });
   });
 
   test('Validates data received on Target nodes', () => {
@@ -61,8 +61,8 @@ describe('QA Take Home Test', () => {
       fs.mkdirSync(outputDir);
     }
 
-    execSync('docker cp $(docker-compose ps -q target_1):/app/events.log ./outputs/target_1_events.log');
-    execSync('docker cp $(docker-compose ps -q target_2):/app/events.log ./outputs/target_2_events.log');
+    execSync('docker cp $(docker compose ps -q target_1):/app/events.log ./outputs/target_1_events.log');
+    execSync('docker cp $(docker compose ps -q target_2):/app/events.log ./outputs/target_2_events.log');
 
     // Read the files
     const target1Data = fs.readFileSync('./outputs/target_1_events.log', 'utf8');
