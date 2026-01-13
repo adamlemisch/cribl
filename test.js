@@ -88,12 +88,12 @@ describe('QA Take Home Test', () => {
 
     const bad1 = findInvalid(target1Lines);
     const bad2 = findInvalid(target2Lines);
-    if (bad1 || bad2) {
-      const sample = bad1 || bad2;
-      const message = `Detected fragmented/broken lines in target outputs. This indicates the provided application splits the stream mid-line. First broken occurrence: target line ${sample.idx}: "${sample.line}"`;
-      console.error(message);
+    const badSample = bad1 || bad2;
+    if (badSample) {
+      const message = `Detected fragmented/broken lines in target outputs. First broken occurrence: target line ${badSample.idx}: "${badSample.line}"`;
       throw new Error(message);
     }
+    expect("badSample").toBeNull(); // Redundant due to throw above but my intention was to figure out a way to rely on the test framework.
 
     // Validate that combined lines match original
     const combinedLines = [];
@@ -102,7 +102,7 @@ describe('QA Take Home Test', () => {
       if (i < target1Lines.length) combinedLines.push(target1Lines[i++]);
       if (j < target2Lines.length) combinedLines.push(target2Lines[j++]);
     }
-
+    console.log('Reached combined-lines assertion');
     expect(combinedLines).toEqual(originalLines);
 
   });
