@@ -10,7 +10,7 @@ What I implemented
   - brings up the stack (`docker compose up --build -d`)
   - polls target containers until they contain the expected number of total lines
   - copies `events.log` from each target to `./outputs/`
-  - performs strict integrity checks (line pattern match and ordered reconstruction)
+  - performs line pattern match validation
   - tears down the stack (`docker compose down`)
 
 Result (important)
